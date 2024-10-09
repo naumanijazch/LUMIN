@@ -17,7 +17,10 @@ The primary goal of Lumin is to provide a comprehensive platform that helps stud
 
 ## Walkthrough of the Application:
 
-
+<video width="720" height="480" controls>
+  <source src="Demo Video/LuminDemo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## How to Run
 
