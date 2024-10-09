@@ -22,6 +22,8 @@ The primary goal of Lumin is to provide a comprehensive platform that helps stud
   Your browser does not support the video tag.
 </video>
 
+[Download/View Demo Video](Demo%20Video/LuminDemo.mp4)
+
 ## How to Run
 
 1. Clone the repository: `git clone https://github.com/naumanijazch/LUMIN `
