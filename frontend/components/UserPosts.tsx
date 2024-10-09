@@ -1,24 +1,11 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-} from "react-native";
-
+import { FlatList, View, StyleSheet } from "react-native";
+import React, { useEffect, forwardRef, memo } from "react";
 import Post from "./Post";
-import React, { useState } from "react";
-import { IP } from "../constants/ip";
-import axios from "axios";
-import { useEffect } from "react";
-import { useAppSelector } from "../redux/hooks";
 import PostMenu from "./PostMenu";
-import { useRef } from "react";
-import { PostMenuRefProps } from "./PostMenu";
-import NewPostMenu from "../components/NewPostMenu";
-import { PostProps } from "../components/Post";
+import { UserPostRef, UserPostProps } from "../types/userPostTypes";
+import { useState } from "react";
+import NewPostMenu from "./NewPostMenu";
+import { PostProps } from "./Post";
 import Animated, {
   SlideInDown,
   SlideOutDown,
@@ -29,11 +16,7 @@ import { Pressable } from "react-native";
 import { HEIGHT, OVERDRAG } from "../constants/size";
 import { BACKDROP_COLOR } from "../constants/color";
 
-const SavedPosts = ({ navigation }: any) => {
-  const [posts, setPosts] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
-  const [refresh, setRefresh] = useState(false);
-
+const UserPosts = forwardRef<UserPostRef, UserPostProps>((props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>();
   const [visible, setVisible] = useState(false);
@@ -45,45 +28,30 @@ const SavedPosts = ({ navigation }: any) => {
   };
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-  const ref = useRef<PostMenuRefProps>(null);
-
-  const getData = async (page: number) => {
-    try {
-      const res = await axios.post(`${IP}/post/bookmarks`, {
-        page: page,
-      });
-
-      setPosts((posts) => [...posts, ...res.data.posts]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // will run every time page changes
   useEffect(() => {
-    getData(page);
-    // console.log(user);
-  }, [page, refresh]);
-
+    props.getPostData(props.postPage);
+  }, [props.postPage, props.postRefresh]);
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          width: "100%",
-          opacity: 0.6,
-          // borderBottomColor: "#848484",
-          // borderBottomWidth: 1,
-        }}
-      />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#000",
+        alignItems: "center",
+        justifyContent: "flex-start",
+      }}
+    >
       <FlatList
         style={styles.scrollPost}
-        data={posts}
+        data={props.posts}
         onEndReached={() => {
-          setPage(page + 1);
+          console.log("User Posts end reached");
+          if (props.posts.length < 10) return;
+          else props.setPostPage(props.postPage + 1);
         }}
         onRefresh={() => {
-          setPosts([]);
-          setPage(1);
-          setRefresh(!refresh);
+          props.setPosts([]);
+          props.setPostPage(0);
+          props.setPostRefresh(!props.postRefresh);
         }}
         refreshing={false}
         onEndReachedThreshold={0.9}
@@ -105,7 +73,7 @@ const SavedPosts = ({ navigation }: any) => {
             // postMenuRef={ref}
           />
         )}
-        extraData={posts}
+        extraData={props.posts}
       />
       {isOpen && (
         <>
@@ -136,46 +104,21 @@ const SavedPosts = ({ navigation }: any) => {
           </Animated.View>
         </>
       )}
-    </SafeAreaView>
+    </View>
   );
-};
+});
 
-export default SavedPosts;
+export default memo(UserPosts);
 
 const styles = StyleSheet.create({
-  menuIcon: {
-    position: "absolute",
-    top: 44, // Adjust top margin to match your status bar height
-    right: 16, // Keep the icon on the right side
-    zIndex: 10, // Ensure the icon is above other elements
-  },
-
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   scrollPost: {
     width: "100%",
-    minHeight: "100%",
   },
   postMenu: {
     position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  editProfileBttn: {
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor: "#35C2C1",
-    borderRadius: 5,
-    width: "90%",
-    padding: 4,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 12,
   },
   sheet: {
     backgroundColor: "black",

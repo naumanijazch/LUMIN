@@ -1,7 +1,7 @@
 import { FlatList, View, StyleSheet } from "react-native";
 import React, { useEffect, forwardRef, memo } from "react";
-import Post from "../components/Post";
-import PostMenu from "../components/PostMenu";
+import Post from "./Post";
+import PostMenu from "./PostMenu";
 import { UserPostRef, UserCommentProps } from "../types/userPostTypes";
 import PostWithComment from "./PostWithComment";
 
