@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46021558935",
+    "project_id": "lumsapp",
+    "storage_bucket": "lumsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46021558935:android:07dd182be0538a6401dfd2",
+        "android_client_info": {
+          "package_name": "com.biski.LUMSapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFkte9RvvXQZ39mi2ti_wu5vpbcKsjWx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
